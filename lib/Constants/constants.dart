@@ -3,11 +3,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 ///Application Constants
 class AppConstants {
+  ///Flutter Toast Method
   static void showToast(String msg) {
     Fluttertoast.showToast(
       msg: msg,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.SNACKBAR,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.grey[700],
       textColor: Colors.white,

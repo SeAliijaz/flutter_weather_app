@@ -1,4 +1,3 @@
-
 class WeatherDataModel {
   Location? location;
   Current? current;
@@ -6,20 +5,22 @@ class WeatherDataModel {
   WeatherDataModel({this.location, this.current});
 
   WeatherDataModel.fromJson(Map<String, dynamic> json) {
-    if(json["location"] is Map) {
-      location = json["location"] == null ? null : Location.fromJson(json["location"]);
+    if (json["location"] is Map) {
+      location =
+          json["location"] == null ? null : Location.fromJson(json["location"]);
     }
-    if(json["current"] is Map) {
-      current = json["current"] == null ? null : Current.fromJson(json["current"]);
+    if (json["current"] is Map) {
+      current =
+          json["current"] == null ? null : Current.fromJson(json["current"]);
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> _data = <String, dynamic>{};
-    if(location != null) {
+    if (location != null) {
       _data["location"] = location?.toJson();
     }
-    if(current != null) {
+    if (current != null) {
       _data["current"] = current?.toJson();
     }
     return _data;
@@ -51,76 +52,101 @@ class Current {
   double? gustMph;
   double? gustKph;
 
-  Current({this.lastUpdatedEpoch, this.lastUpdated, this.tempC, this.tempF, this.isDay, this.condition, this.windMph, this.windKph, this.windDegree, this.windDir, this.pressureMb, this.pressureIn, this.precipMm, this.precipIn, this.humidity, this.cloud, this.feelslikeC, this.feelslikeF, this.visKm, this.visMiles, this.uv, this.gustMph, this.gustKph});
+  Current(
+      {this.lastUpdatedEpoch,
+      this.lastUpdated,
+      this.tempC,
+      this.tempF,
+      this.isDay,
+      this.condition,
+      this.windMph,
+      this.windKph,
+      this.windDegree,
+      this.windDir,
+      this.pressureMb,
+      this.pressureIn,
+      this.precipMm,
+      this.precipIn,
+      this.humidity,
+      this.cloud,
+      this.feelslikeC,
+      this.feelslikeF,
+      this.visKm,
+      this.visMiles,
+      this.uv,
+      this.gustMph,
+      this.gustKph});
 
   Current.fromJson(Map<String, dynamic> json) {
-    if(json["last_updated_epoch"] is int) {
+    if (json["last_updated_epoch"] is int) {
       lastUpdatedEpoch = json["last_updated_epoch"];
     }
-    if(json["last_updated"] is String) {
+    if (json["last_updated"] is String) {
       lastUpdated = json["last_updated"];
     }
-    if(json["temp_c"] is int) {
+    if (json["temp_c"] is int) {
       tempC = json["temp_c"];
     }
-    if(json["temp_f"] is int) {
+    if (json["temp_f"] is int) {
       tempF = json["temp_f"];
     }
-    if(json["is_day"] is int) {
+    if (json["is_day"] is int) {
       isDay = json["is_day"];
     }
-    if(json["condition"] is Map) {
-      condition = json["condition"] == null ? null : Condition.fromJson(json["condition"]);
+    if (json["condition"] is Map) {
+      condition = json["condition"] == null
+          ? null
+          : Condition.fromJson(json["condition"]);
     }
-    if(json["wind_mph"] is double) {
+    if (json["wind_mph"] is double) {
       windMph = json["wind_mph"];
     }
-    if(json["wind_kph"] is double) {
+    if (json["wind_kph"] is double) {
       windKph = json["wind_kph"];
     }
-    if(json["wind_degree"] is int) {
+    if (json["wind_degree"] is int) {
       windDegree = json["wind_degree"];
     }
-    if(json["wind_dir"] is String) {
+    if (json["wind_dir"] is String) {
       windDir = json["wind_dir"];
     }
-    if(json["pressure_mb"] is int) {
+    if (json["pressure_mb"] is int) {
       pressureMb = json["pressure_mb"];
     }
-    if(json["pressure_in"] is double) {
+    if (json["pressure_in"] is double) {
       pressureIn = json["pressure_in"];
     }
-    if(json["precip_mm"] is int) {
+    if (json["precip_mm"] is int) {
       precipMm = json["precip_mm"];
     }
-    if(json["precip_in"] is int) {
+    if (json["precip_in"] is int) {
       precipIn = json["precip_in"];
     }
-    if(json["humidity"] is int) {
+    if (json["humidity"] is int) {
       humidity = json["humidity"];
     }
-    if(json["cloud"] is int) {
+    if (json["cloud"] is int) {
       cloud = json["cloud"];
     }
-    if(json["feelslike_c"] is double) {
+    if (json["feelslike_c"] is double) {
       feelslikeC = json["feelslike_c"];
     }
-    if(json["feelslike_f"] is double) {
+    if (json["feelslike_f"] is double) {
       feelslikeF = json["feelslike_f"];
     }
-    if(json["vis_km"] is int) {
+    if (json["vis_km"] is int) {
       visKm = json["vis_km"];
     }
-    if(json["vis_miles"] is int) {
+    if (json["vis_miles"] is int) {
       visMiles = json["vis_miles"];
     }
-    if(json["uv"] is int) {
+    if (json["uv"] is int) {
       uv = json["uv"];
     }
-    if(json["gust_mph"] is double) {
+    if (json["gust_mph"] is double) {
       gustMph = json["gust_mph"];
     }
-    if(json["gust_kph"] is double) {
+    if (json["gust_kph"] is double) {
       gustKph = json["gust_kph"];
     }
   }
@@ -132,7 +158,7 @@ class Current {
     _data["temp_c"] = tempC;
     _data["temp_f"] = tempF;
     _data["is_day"] = isDay;
-    if(condition != null) {
+    if (condition != null) {
       _data["condition"] = condition?.toJson();
     }
     _data["wind_mph"] = windMph;
@@ -164,13 +190,13 @@ class Condition {
   Condition({this.text, this.icon, this.code});
 
   Condition.fromJson(Map<String, dynamic> json) {
-    if(json["text"] is String) {
+    if (json["text"] is String) {
       text = json["text"];
     }
-    if(json["icon"] is String) {
+    if (json["icon"] is String) {
       icon = json["icon"];
     }
-    if(json["code"] is int) {
+    if (json["code"] is int) {
       code = json["code"];
     }
   }
@@ -194,31 +220,39 @@ class Location {
   int? localtimeEpoch;
   String? localtime;
 
-  Location({this.name, this.region, this.country, this.lat, this.lon, this.tzId, this.localtimeEpoch, this.localtime});
+  Location(
+      {this.name,
+      this.region,
+      this.country,
+      this.lat,
+      this.lon,
+      this.tzId,
+      this.localtimeEpoch,
+      this.localtime});
 
   Location.fromJson(Map<String, dynamic> json) {
-    if(json["name"] is String) {
+    if (json["name"] is String) {
       name = json["name"];
     }
-    if(json["region"] is String) {
+    if (json["region"] is String) {
       region = json["region"];
     }
-    if(json["country"] is String) {
+    if (json["country"] is String) {
       country = json["country"];
     }
-    if(json["lat"] is double) {
+    if (json["lat"] is double) {
       lat = json["lat"];
     }
-    if(json["lon"] is double) {
+    if (json["lon"] is double) {
       lon = json["lon"];
     }
-    if(json["tz_id"] is String) {
+    if (json["tz_id"] is String) {
       tzId = json["tz_id"];
     }
-    if(json["localtime_epoch"] is int) {
+    if (json["localtime_epoch"] is int) {
       localtimeEpoch = json["localtime_epoch"];
     }
-    if(json["localtime"] is String) {
+    if (json["localtime"] is String) {
       localtime = json["localtime"];
     }
   }

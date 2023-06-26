@@ -12,8 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      ///Title of App
       title: 'Weather App',
+
+      ///debugShowCheckedModeBanner
       debugShowCheckedModeBanner: false,
+
+      ///theme: ThemeData()
       theme: ThemeData(
         primarySwatch: Colors.blue,
         primaryColor: Colors.blue,
@@ -21,6 +26,8 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
+
+      ///home: [Initial Route]
       home: HomeScreen(),
     );
   }

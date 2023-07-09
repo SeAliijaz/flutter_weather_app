@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/Constants/constants.dart';
 import 'package:flutter_weather_app/Custom_Widgets/appbar_gradient.dart';
+import 'package:flutter_weather_app/Custom_Widgets/custom_list_tile.dart';
+import 'package:flutter_weather_app/Custom_Widgets/custom_mini_card.dart';
+import 'package:flutter_weather_app/Custom_Widgets/custom_spinkit.dart';
 import 'package:flutter_weather_app/Models/weather_data_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<WeatherDataModel>? _weatherDataFuture;
 
   Future<WeatherDataModel> fetchData(String location) async {
-    final String apiUrl =
+    final String uri =
         'http://api.weatherapi.com/v1/current.json?key=${ApiConstants.apiKey}&q=$location&aqi=no';
-    var response = await http.get(Uri.parse(apiUrl));
+    var response = await http.get(Uri.parse(uri));
 
     if (response.statusCode == 200) {
       var jsonData = json.decode(response.body.toString());
@@ -38,6 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Weather App'),
@@ -78,169 +83,182 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (BuildContext context,
                   AsyncSnapshot<WeatherDataModel> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
+                  return Center(
                     child: CircularProgressIndicator(),
                   );
                 } else if (snapshot.hasError) {
-                  return const Center(
+                  return Center(
                     child: Text('Failed to load weather data'),
                   );
                 } else {
-                  ///value assigned to snapshot.data
                   WeatherDataModel? weatherData = snapshot.data;
                   if (weatherData != null) {
-                    return ListView.builder(
-                      itemCount: 1,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Column(
-                          children: [
-                            ListTile(
-                              leading: const Icon(Icons.location_on),
-                              title: Text(
-                                  'Location: ${weatherData.location!.name}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.location_city),
-                              title: Text(
-                                  'Region: ${weatherData.location!.region}'),
-                            ),
+                    return ListView(
+                      padding: EdgeInsets.all(10.0),
+                      children: [
+                        Card(
+                          child: ListTile(
+                            title: Text("Location & Conditions"),
+                          ),
+                        ),
 
-                            ///Condition
-                            ListTile(
-                              leading: const Icon(Icons.cloud),
-                              title: Text(
-                                  'Condition: ${weatherData.current!.condition!.text}'),
-                              trailing: Image.network(
-                                  'http:${weatherData.current!.condition!.icon}'),
+                        ///Weather Container
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.blue.withOpacity(0.2)),
+                              borderRadius: BorderRadius.circular(10.0),
+                              gradient: LinearGradient(
+                                colors: [
+                                  Color(0xFF2196F3),
+                                  Colors.white,
+                                ],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
                             ),
-                            ListTile(
-                              leading: const Icon(Icons.public),
-                              title: Text(
-                                  'Country: ${weatherData.location!.country}'),
+                            height: size.height * 0.25,
+                            width: size.width,
+
+                            ///Inside of Weather Container
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomListTile(
+                                    leadingIcon: Icons.watch_later_outlined,
+                                    title:
+                                        "Local Time: ${weatherData.location!.localtime}",
+                                  ),
+                                  CustomListTile(
+                                    leadingIcon: Icons.location_city_outlined,
+                                    title: "${weatherData.location!.name}",
+                                    trailingText:
+                                        "Temp: ${weatherData.current!.feelslikeC}°C",
+                                    isTrailingNeeded: true,
+                                  ),
+                                  CustomListTile(
+                                    leadingIcon: Icons.location_on_outlined,
+                                    title:
+                                        "Region: ${weatherData.location!.region}",
+                                    trailingText:
+                                        "Country: ${weatherData.location!.country}",
+                                    isTrailingNeeded: true,
+                                  ),
+                                ],
+                              ),
                             ),
-                            ListTile(
-                              leading: const Icon(Icons.location_on),
-                              title: Text(
-                                  'Latitude: ${weatherData.location!.lat}'),
+                          ),
+                        ),
+
+                        ///2nd Card
+                        Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.blue.withOpacity(0.2)),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            ListTile(
-                              leading: const Icon(Icons.location_on),
-                              title: Text(
-                                  'Longitude: ${weatherData.location!.lon}'),
+                            height: size.height * 0.45,
+                            width: size.width,
+
+                            ///Inside of Weather Container
+                            child: Container(
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  CustomListTile(
+                                    leadingIcon: Icons.wb_sunny_outlined,
+                                    title:
+                                        "Is Day: ${weatherData.current!.isDay}",
+                                  ),
+
+                                  ///this is simple listtile just because of traling image.network()
+                                  ListTile(
+                                    leading: const Icon(Icons.cloud_outlined),
+                                    title: Text(
+                                        'Condition: ${weatherData.current!.condition!.text}'),
+                                    trailing: Image.network(
+                                        'http:${weatherData.current!.condition!.icon}'),
+                                  ),
+                                  CustomListTile(
+                                    leadingIcon: Icons.thermostat_outlined,
+                                    title:
+                                        "Feels Like: ${weatherData.current!.feelslikeC}°C",
+                                  ),
+
+                                  CustomListTile(
+                                    leadingIcon: Icons.thermostat_outlined,
+                                    title:
+                                        "Feels Like: ${weatherData.current!.feelslikeF}°F",
+                                  ),
+                                  CustomListTile(
+                                    leadingIcon: Icons.opacity_outlined,
+                                    title:
+                                        'Humidity: ${weatherData.current!.humidity}%',
+                                  ),
+                                ],
+                              ),
                             ),
-                            ListTile(
-                              leading: const Icon(Icons.access_time),
-                              title: Text(
-                                  'Local Time: ${weatherData.location!.localtime}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.thermostat_outlined),
-                              title: Text(
-                                  'Temperature (Celsius): ${weatherData.current!.tempC}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.thermostat_outlined),
-                              title: Text(
-                                  'Temperature (Fahrenheit): ${weatherData.current!.tempF}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.wb_sunny),
-                              title:
-                                  Text('Is Day: ${weatherData.current!.isDay}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.waves),
-                              title: Text(
-                                  'Wind Speed (MPH): ${weatherData.current!.windMph}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.waves),
-                              title: Text(
-                                  'Wind Speed (KPH): ${weatherData.current!.windKph}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.navigation),
-                              title: Text(
-                                  'Wind Direction: ${weatherData.current!.windDir}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.barcode_reader),
-                              title: Text(
-                                  'Pressure (mb): ${weatherData.current!.pressureMb}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.barcode_reader),
-                              title: Text(
-                                  'Pressure (in): ${weatherData.current!.pressureIn}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.umbrella),
-                              title: Text(
-                                  'Precipitation (mm): ${weatherData.current!.precipMm}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.umbrella),
-                              title: Text(
-                                  'Precipitation (in): ${weatherData.current!.precipIn}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.opacity),
-                              title: Text(
-                                  'Humidity: ${weatherData.current!.humidity}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.cloud),
-                              title:
-                                  Text('Cloud: ${weatherData.current!.cloud}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.thermostat_outlined),
-                              title: Text(
-                                  'Feels Like (Celsius): ${weatherData.current!.feelslikeC}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.thermostat_outlined),
-                              title: Text(
-                                  'Feels Like (Fahrenheit): ${weatherData.current!.feelslikeF}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.visibility),
-                              title: Text(
-                                  'Visibility (km): ${weatherData.current!.visKm}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.visibility),
-                              title: Text(
-                                  'Visibility (miles): ${weatherData.current!.visMiles}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.wb_sunny),
-                              title:
-                                  Text('UV Index: ${weatherData.current!.uv}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.waves),
-                              title: Text(
-                                  'Gust Speed (MPH): ${weatherData.current!.gustMph}'),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.waves),
-                              title: Text(
-                                  'Gust Speed (KPH): ${weatherData.current!.gustKph}'),
-                            ),
-                          ],
-                        );
-                      },
+                          ),
+                        ),
+
+                        ///Mini Cards Scrollable Row
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              CustomMiniCard(
+                                iconData: Icons.waves_outlined,
+                                title:
+                                    "Wind Speed: ${weatherData.current!.windKph}km/h",
+                              ),
+                              CustomMiniCard(
+                                iconData: Icons.barcode_reader,
+                                title:
+                                    "Pressure: ${weatherData.current!.pressureMb} mb",
+                              ),
+                              CustomMiniCard(
+                                iconData: Icons.umbrella,
+                                title:
+                                    "Precipitation: ${weatherData.current!.precipMm} mm",
+                              ),
+                              CustomMiniCard(
+                                iconData: Icons.visibility,
+                                title:
+                                    "Visibility: ${weatherData.current!.visKm} km",
+                              ),
+                              CustomMiniCard(
+                                iconData: Icons.wb_sunny,
+                                title: "UV Index: ${weatherData.current!.uv}",
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     );
                   } else {
-                    return const Center(
+                    return Center(
                       child: Text('No weather data available'),
                     );
                   }
                 }
               },
             )
-          : Container(),
+          : Center(
+              child: SpinKitWidget(
+                size: 50.0,
+                color: Colors.blue[300],
+                type: "wave",
+              ),
+            ),
     );
   }
 }

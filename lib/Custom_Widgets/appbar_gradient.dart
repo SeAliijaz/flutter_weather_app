@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/Constants/constants.dart';
 
 class AppBarGradient extends StatelessWidget {
   const AppBarGradient({
@@ -8,12 +9,9 @@ class AppBarGradient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Color(0xFF2196F3),
-            Colors.white,
-          ],
+          colors: AppConstants.appBarGradients,
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),

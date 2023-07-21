@@ -319,12 +319,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                       "Wind Dir: ${weatherData.current!.windDir}",
                                 ),
                                 CustomMiniCard(
-                                  iconData: Icons.wind_power_outlined,
+                                  iconData: Icons.nat_outlined,
                                   title:
                                       "Gust Mph: ${weatherData.current!.gustMph}",
                                 ),
                                 CustomMiniCard(
-                                  iconData: Icons.wind_power_outlined,
+                                  iconData: Icons.nat_outlined,
                                   title:
                                       "Gust Kph: ${weatherData.current!.gustKph}",
                                 ),
@@ -349,8 +349,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
 
 /*
 import 'dart:async';

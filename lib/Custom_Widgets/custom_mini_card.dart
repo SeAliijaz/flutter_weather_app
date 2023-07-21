@@ -1,55 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_app/Constants/constants.dart';
 
 class CustomMiniCard extends StatelessWidget {
   final IconData? iconData;
   final String? title;
-  // final bool? isWhiteColorNeeded;
-  // final FontWeight? fontWeight;
-  // final double? fontSize;
 
   const CustomMiniCard({
     super.key,
     this.iconData,
     this.title,
-    // this.isWhiteColorNeeded = false,
-    // this.fontWeight,
-    // this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 5,
-      shadowColor: Colors.grey,
+      elevation: 5.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: AppConstants.cardColors),
-          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.grey.shade200),
         ),
-        height: 250,
-        width: 200,
+        height: MediaQuery.sizeOf(context).height * 0.30,
+        width: MediaQuery.sizeOf(context).height * 0.25,
         child: Column(
           children: [
+            Expanded(child: Icon(iconData)),
             Expanded(
-                child: Icon(
-              iconData,
-              color: Colors.white,
-              // color: isWhiteColorNeeded == true ? Colors.white : Colors.black,
-            )),
-            Expanded(
-              child: Text(
-                title ?? "title",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold
-                    // isWhiteColorNeeded == true ? Colors.white : Colors.black,
-                    // fontSize: fontSize,
-                    // fontWeight: fontWeight,
-                    ),
-              ),
+              child: Text(title ?? "title"),
             ),
           ],
         ),

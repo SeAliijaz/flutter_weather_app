@@ -18,8 +18,6 @@ class AppConstants {
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.SNACKBAR,
       timeInSecForIosWeb: 1,
-      backgroundColor: Colors.grey[700],
-      textColor: Colors.white,
       fontSize: 16.0,
     );
   }
@@ -36,12 +34,12 @@ class AppConstants {
             Center(
                 child: Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             )),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Center(
               child: SpinKitWidget(
                 size: 50.0,
@@ -57,8 +55,8 @@ class AppConstants {
 
   ///App Colors
   static List<Color> cardColors = [
-    Color(0xffD763E8),
-    Color(0xff6E63EE),
+    const Color(0xffD763E8),
+    const Color(0xff6E63EE),
   ];
   static const List<Color> appBarGradients = [
     Color(0xFF2196F3),

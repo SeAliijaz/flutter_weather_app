@@ -69,7 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Weather App'),
         centerTitle: true,
         flexibleSpace: const AppBarGradient(),
-        leading: const Icon(Icons.menu_outlined),
+        leading: IconButton(
+            onPressed: () {
+              AppConstants.showToast("Will Add This Soon :)");
+            },
+            icon: Icon(Icons.menu_outlined)),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(70.0),
           child: Padding(
@@ -119,20 +123,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           ///Weather Container
                           Card(
+                            elevation: 5.0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.blue.withOpacity(0.2)),
+                                border: Border.all(color: Colors.grey.shade200),
                                 borderRadius: BorderRadius.circular(10.0),
-                                gradient: LinearGradient(
-                                  colors: AppConstants.cardColors,
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                ),
                               ),
-                              height: size.height * 0.30,
+                              height: size.height * 0.35,
                               width: size.width,
 
                               ///Inside of Weather Container
@@ -157,30 +156,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                       //   ),
                                       // )}",
                                       ///------------------------------------------------
-
-                                      isWhiteColorNeeded: true,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                     CustomListTile(
                                       leadingIcon: Icons.location_city_outlined,
                                       title: "${weatherData.location!.name}",
-                                      trailingText:
+                                      subtitle:
                                           "Temp: ${weatherData.current!.feelslikeC}°C",
-                                      isTrailingNeeded: true,
-                                      isWhiteColorNeeded: true,
-                                      fontWeight: FontWeight.bold,
+                                      isSubtitleNeeded: true,
                                     ),
                                     CustomListTile(
                                       leadingIcon: Icons.location_on_outlined,
-                                      title:
-                                          "Region: ${weatherData.location!.region}",
+                                      title: "${weatherData.location!.region}",
                                       trailingText:
-                                          "Country: ${weatherData.location!.country}",
+                                          "${weatherData.location!.country}",
                                       subtitle: "${weatherData.location!.tzId}",
-                                      fontWeight: FontWeight.bold,
                                       isSubtitleNeeded: true,
                                       isTrailingNeeded: true,
-                                      isWhiteColorNeeded: true,
                                     ),
                                   ],
                                 ),
@@ -190,15 +181,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           ///2nd Card
                           Card(
+                            elevation: 5.0,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.blue.withOpacity(0.2)),
+                                border: Border.all(color: Colors.grey.shade200),
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
-                              height: size.height * 0.45,
+                              height: size.height * 0.60,
                               width: size.width,
 
                               ///Inside of Weather Container
@@ -211,40 +202,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                       leadingIcon: Icons.wb_sunny_outlined,
                                       title:
                                           "Is Day: ${weatherData.current!.isDay}",
-                                      fontWeight: FontWeight.bold,
                                     ),
 
                                     ///this is simple listtile just because of traling image.network()
-                                    ListTile(
-                                      leading: const Icon(Icons.cloud_outlined,
-                                          color: Colors.black),
-                                      title: Text(
-                                        'Condition: ${weatherData.current!.condition!.text}',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                    SizedBox(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5, horizontal: 5),
+                                        child: ListTile(
+                                          leading: const Icon(
+                                              Icons.cloud_outlined,
+                                              color: Colors.black),
+                                          title: Text(
+                                            'Condition: ${weatherData.current!.condition!.text}',
+                                          ),
+                                          trailing: Image.network(
+                                              'http:${weatherData.current!.condition!.icon}'),
                                         ),
                                       ),
-                                      trailing: Image.network(
-                                          'http:${weatherData.current!.condition!.icon}'),
                                     ),
                                     CustomListTile(
                                       leadingIcon: Icons.thermostat_outlined,
                                       title:
                                           "Feels Like: ${weatherData.current!.feelslikeC}°C",
-                                      fontWeight: FontWeight.bold,
                                     ),
 
                                     CustomListTile(
                                       leadingIcon: Icons.thermostat_outlined,
                                       title:
                                           "Feels Like: ${weatherData.current!.feelslikeF}°F",
-                                      fontWeight: FontWeight.bold,
                                     ),
                                     CustomListTile(
                                       leadingIcon: Icons.opacity_outlined,
                                       title:
                                           'Humidity: ${weatherData.current!.humidity}%',
-                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    CustomListTile(
+                                      leadingIcon: Icons.cloud_circle_outlined,
+                                      title:
+                                          'Cloud: ${weatherData.current!.cloud}',
                                     ),
                                   ],
                                 ),
@@ -258,9 +254,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               children: [
                                 CustomMiniCard(
-                                  iconData: Icons.waves_outlined,
+                                  iconData: Icons.wind_power_outlined,
+                                  title:
+                                      "Wind Speed: ${weatherData.current!.windMph}mp/h",
+                                ),
+                                CustomMiniCard(
+                                  iconData: Icons.wind_power_outlined,
                                   title:
                                       "Wind Speed: ${weatherData.current!.windKph}km/h",
+                                ),
+                                CustomMiniCard(
+                                  iconData: Icons.waves_outlined,
+                                  title:
+                                      "Wind Degree: ${weatherData.current!.windDegree}",
                                 ),
                                 CustomMiniCard(
                                   iconData: Icons.barcode_reader,
@@ -268,18 +274,59 @@ class _HomeScreenState extends State<HomeScreen> {
                                       "Pressure: ${weatherData.current!.pressureMb} mb",
                                 ),
                                 CustomMiniCard(
-                                  iconData: Icons.umbrella,
+                                  iconData: Icons.barcode_reader,
                                   title:
-                                      "Precipitation: ${weatherData.current!.precipMm} mm",
+                                      "Pressure: ${weatherData.current!.pressureIn} In",
                                 ),
                                 CustomMiniCard(
-                                  iconData: Icons.visibility,
+                                  iconData: Icons.visibility_outlined,
                                   title:
                                       "Visibility: ${weatherData.current!.visKm} km",
                                 ),
                                 CustomMiniCard(
-                                  iconData: Icons.wb_sunny,
+                                  iconData: Icons.visibility_outlined,
+                                  title:
+                                      "Visibility: ${weatherData.current!.visMiles} mm",
+                                ),
+                                CustomMiniCard(
+                                  iconData: Icons.wb_sunny_outlined,
                                   title: "UV Index: ${weatherData.current!.uv}",
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          ///Data in Column
+                          CustomMiniCard(
+                            iconData: Icons.umbrella_outlined,
+                            title:
+                                "Precipitation: ${weatherData.current!.precipMm} mm",
+                          ),
+                          CustomMiniCard(
+                            iconData: Icons.umbrella_outlined,
+                            title:
+                                "Precipitation: ${weatherData.current!.precipIn} in",
+                          ),
+
+                          ///Data in Row
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                CustomMiniCard(
+                                  iconData: Icons.wind_power_outlined,
+                                  title:
+                                      "Wind Dir: ${weatherData.current!.windDir}",
+                                ),
+                                CustomMiniCard(
+                                  iconData: Icons.wind_power_outlined,
+                                  title:
+                                      "Gust Mph: ${weatherData.current!.gustMph}",
+                                ),
+                                CustomMiniCard(
+                                  iconData: Icons.wind_power_outlined,
+                                  title:
+                                      "Gust Kph: ${weatherData.current!.gustKph}",
                                 ),
                               ],
                             ),
@@ -302,3 +349,170 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+
+/*
+import 'dart:async';
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter_weather_app/Constants/constants.dart';
+import 'package:flutter_weather_app/Custom_Widgets/appbar_gradient.dart';
+import 'package:flutter_weather_app/Custom_Widgets/custom_list_tile.dart';
+import 'package:flutter_weather_app/Custom_Widgets/custom_mini_card.dart';
+import 'package:flutter_weather_app/Models/weather_data_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final TextEditingController _searchController = TextEditingController();
+  Future<WeatherDataModel>? _weatherDataFuture;
+
+  Future<WeatherDataModel> fetchData(String location) async {
+    final String currentWeatherUri =
+        'http://api.weatherapi.com/v1/current.json?key=${ApiConstants.apiKey}&q=$location&aqi=no';
+    final String forecastUri =
+        'http://api.weatherapi.com/v1/forecast.json?key=${ApiConstants.apiKey}&q=$location&days=7&aqi=no';
+
+    var currentWeatherResponse = await http.get(Uri.parse(currentWeatherUri));
+    var forecastResponse = await http.get(Uri.parse(forecastUri));
+
+    try {
+      if (currentWeatherResponse.statusCode == 200 &&
+          forecastResponse.statusCode == 200) {
+        var currentWeatherJson = json.decode(currentWeatherResponse.body.toString());
+        var forecastJson = json.decode(forecastResponse.body.toString());
+
+        WeatherDataModel currentWeatherData = WeatherDataModel.fromJson(currentWeatherJson);
+        currentWeatherData.forecast = WeatherDataModel.parseForecastData(forecastJson);
+
+        return currentWeatherData;
+      } else {
+        throw Exception('Failed to load weather data');
+      }
+    } catch (e) {
+      return AppConstants.showToast(e.toString());
+    }
+  }
+
+  // ... (rest of the code remains unchanged)
+
+  @override
+  Widget build(BuildContext context) {
+    // ... (rest of the code remains unchanged)
+
+    return Scaffold(
+      // ... (rest of the code remains unchanged)
+
+      body: _weatherDataFuture != null
+          ? FutureBuilder<WeatherDataModel>(
+              future: _weatherDataFuture,
+              builder: (BuildContext context, AsyncSnapshot<WeatherDataModel> snapshot) {
+                try {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return AppConstants.progressIndicator(
+                        "Failed To Load Data.", "doubleBounce");
+                  } else {
+                    WeatherDataModel? weatherData = snapshot.data;
+                    if (weatherData != null) {
+                      return ListView(
+                        padding: EdgeInsets.all(10.0),
+                        children: [
+                          ///Weather Container
+                          Card(
+                            // ... (rest of the code remains unchanged)
+                          ),
+
+                          ///2nd Card
+                          Card(
+                            // ... (rest of the code remains unchanged)
+                          ),
+
+                          ///Mini Cards Scrollable Row
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                // ... (rest of the code remains unchanged)
+                              ],
+                            ),
+                          ),
+
+                          ///Data in Column
+                          CustomMiniCard(
+                            // ... (rest of the code remains unchanged)
+                          ),
+                          CustomMiniCard(
+                            // ... (rest of the code remains unchanged)
+                          ),
+
+                          ///Data in Row
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                // ... (rest of the code remains unchanged)
+                              ],
+                            ),
+                          ),
+
+                          /// Forecast for 7 days
+                          SizedBox(height: 20),
+                          Text(
+                            '7-day Forecast:',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: weatherData.forecast!.map((dayForecast) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        DateFormat('E, d MMM').format(dayForecast.date),
+                                        style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      Image.network('http:${dayForecast.day!.condition!.icon}'),
+                                      Text('${dayForecast.day!.maxtempC}°C'),
+                                      Text('${dayForecast.day!.mintempC}°C'),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return AppConstants.progressIndicator("No Weather Data to Show.", "doubleBounce");
+                    }
+                  }
+                } catch (e) {
+                  return AppConstants.showToast(e.toString());
+                }
+              },
+            )
+          : Center(
+              child: AppConstants.progressIndicator("No Weather Data Found", "doubleBounce")),
+    );
+  }
+}
+
+*/
